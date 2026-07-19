@@ -48,23 +48,44 @@ j=d.createElement(s),dl=l!='dataLayer'?'&l='+l:'';j.async=true;j.src=
 .communal-card span { font-size: 16px; font-weight: 500; }
 .provider-card.clickable { cursor: pointer; }
 
-/* Mavi tap-highlight'i sondur */
+/* Mavi tap-highlight'i sondur (butun sehifede, hec bir elementde gorunmesin) */
+*,
+*::before,
+*::after {
+  -webkit-tap-highlight-color: transparent;
+}
+a, button, img, input, span, div,
 .provider-card,
 .communal-card,
 .communal-close,
 .service-continue-btn,
 .back-btn,
 .service-select,
-.service-input-wrap input {
+.service-input-wrap input,
+.bill-method-select,
+.bill-debt-row,
+.bill-pay-btn,
+.m10-payment-row,
+.m10-sheet-close-btn,
+.pm-icon {
   -webkit-tap-highlight-color: transparent;
   -webkit-touch-callout: none;
   outline: none;
   user-select: none;
 }
+a:focus, a:active,
+button:focus, button:active,
+img:focus, img:active,
 .provider-card:focus,
 .provider-card:active,
 .communal-card:focus,
-.communal-card:active {
+.communal-card:active,
+.bill-method-select:focus,
+.bill-method-select:active,
+.bill-debt-row:focus,
+.bill-debt-row:active,
+.m10-payment-row:focus,
+.m10-payment-row:active {
   background: inherit;
   outline: none;
   box-shadow: none;
@@ -200,18 +221,25 @@ body.m10-overlay-open { overflow: hidden; }
 /* ==== Asagidan acilan panel (bottom sheet) ==== */
 .m10-sheet-overlay {
   position: fixed; inset: 0; background: rgba(0,0,0,0.45); z-index: 10010;
-  display: none; align-items: flex-end; justify-content: center;
+  display: flex; align-items: flex-end; justify-content: center;
+  opacity: 0; visibility: hidden; pointer-events: none;
+  transition: opacity .3s ease, visibility 0s linear .3s;
 }
-.m10-sheet-overlay.active { display: flex; }
+.m10-sheet-overlay.active {
+  opacity: 1; visibility: visible; pointer-events: auto;
+  transition: opacity .3s ease, visibility 0s linear 0s;
+}
 .m10-sheet {
   background: #fff; width: 100%; max-width: 480px;
   border-radius: 20px 20px 0 0; padding: 10px 22px 22px;
-  animation: m10-sheet-up .25s ease;
   max-height: 80vh; overflow-y: auto;
+  transform: translateY(36px);
+  opacity: 0;
+  transition: transform .32s cubic-bezier(.22,1,.36,1), opacity .28s ease;
 }
-@keyframes m10-sheet-up {
-  from { transform: translateY(100%); }
-  to { transform: translateY(0); }
+.m10-sheet-overlay.active .m10-sheet {
+  transform: translateY(0);
+  opacity: 1;
 }
 .m10-sheet-handle {
   width: 40px; height: 4px; border-radius: 2px; background: #e2e2e2;
@@ -227,8 +255,8 @@ body.m10-overlay-open { overflow: hidden; }
   display: flex; align-items: center; gap: 14px; padding: 14px 0;
   cursor: pointer;
 }
-.m10-payment-row img, .m10-payment-row .pm-icon {
-  width: 40px; height: 28px; border-radius: 6px; object-fit: cover;
+.pm-icon {
+  width: 40px; height: 28px; border-radius: 6px; object-fit: cover; display: block;
 }
 .m10-payment-row span { font-size: 16px; color: #111; flex: 1; }
 .m10-payment-row .check {
@@ -305,9 +333,9 @@ body.m10-overlay-open { overflow: hidden; }
       <input type="number" id="billAmountInput" oninput="updateBillPayBtn()" value="1"/>
       <span class="currency">₼</span>
     </div>
-    <div class="bill-keshbek">&#128142; 1% keşbek</div>
+    <div class="bill-keshbek"><img src="images/cashback-icon.png" alt="" style="width:20px;height:20px;"/> 1% keşbek</div>
     <div class="bill-method-select" onclick="openPaymentSheet()">
-      <span>&#128179;</span>
+      <img src="images/card-icon.png" alt="" class="pm-icon"/>
       <span id="billMethodLabel">Yeni kartdan</span>
       <span>&#9662;</span>
     </div>
@@ -336,7 +364,7 @@ body.m10-overlay-open { overflow: hidden; }
     <div class="m10-sheet-handle"></div>
     <h4 style="margin:0 0 6px;font-size:19px;font-weight:600;">Ödəniş üsulu</h4>
     <div class="m10-payment-row">
-      <span class="pm-icon" style="display:flex;align-items:center;justify-content:center;background:#f2f2f2;">&#128179;</span>
+      <img src="images/card-icon.png" alt="" class="pm-icon"/>
       <span>Yeni kartdan</span>
       <span class="check">&#10003;</span>
     </div>
