@@ -256,12 +256,16 @@ body.m10-overlay-open { overflow: hidden; }
   cursor: pointer;
 }
 .pm-icon {
-  width: 40px; height: 28px; border-radius: 6px; object-fit: cover; display: block;
+  width: 32px; height: 32px; object-fit: contain; display: block;
 }
 .m10-payment-row span { font-size: 16px; color: #111; flex: 1; }
 .m10-payment-row .check {
-  width: 22px; height: 22px; border-radius: 50%; background: #111; color: #fff;
-  display: flex; align-items: center; justify-content: center; font-size: 12px;
+  width: 20px; height: 20px; border-radius: 50%; color: #fff;
+  display: flex; align-items: center; justify-content: center; font-size: 10px;
+  flex-shrink: 0;
+}
+.m10-payment-row .check img {
+  width: 100%; height: 100%; object-fit: contain;
 }
 .m10-sheet-close-btn {
   width: 100%; text-align: center; padding: 14px; margin-top: 6px;
@@ -366,7 +370,7 @@ body.m10-overlay-open { overflow: hidden; }
     <div class="m10-payment-row">
       <img src="images/card-icon.png" alt="" class="pm-icon"/>
       <span>Yeni kartdan</span>
-      <span class="check">&#10003;</span>
+      <span class="check"><img src="images/check-icon.png" alt=""/></span>
     </div>
     <button type="button" class="m10-sheet-close-btn" onclick="closePaymentSheet()">Bağlamaq</button>
   </div>
