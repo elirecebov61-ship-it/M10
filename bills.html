@@ -202,7 +202,7 @@ body.m10-overlay-open { overflow: hidden; }
   font-size: 36px; font-weight: 700; color: #111; background: transparent;
   -webkit-tap-highlight-color: transparent;
 }
-.bill-amount-wrap .currency { font-size: 22px; color: #111; }
+.bill-amount-wrap .currency { font-size: 22px; color: #9aa0a6; }
 .bill-keshbek {
   display: flex; align-items: center; gap: 6px; font-size: 14px; color: #5a4fcf; font-weight: 500;
 }
@@ -240,12 +240,12 @@ body.m10-overlay-open { overflow: hidden; }
   background: #fff; width: 100%; max-width: 480px;
   border-radius: 20px 20px 0 0; padding: 10px 22px 22px;
   max-height: 80vh; overflow-y: auto;
-  transform: translateY(36px);
+  transform: translateY(60px) scale(.96);
   opacity: 0;
-  transition: transform .32s cubic-bezier(.22,1,.36,1), opacity .28s ease;
+  transition: transform .42s cubic-bezier(.32,1.45,.55,1), opacity .3s ease;
 }
 .m10-sheet-overlay.active .m10-sheet {
-  transform: translateY(0);
+  transform: translateY(0) scale(1);
   opacity: 1;
 }
 .m10-sheet-handle {
@@ -259,8 +259,9 @@ body.m10-overlay-open { overflow: hidden; }
 .m10-sheet-row .value { font-size: 15px; color: #111; font-weight: 500; }
 
 .m10-payment-row {
-  display: flex; align-items: center; gap: 14px; padding: 14px 0;
+  display: flex; align-items: center; gap: 14px; padding: 14px 14px;
   cursor: pointer;
+  background: #f5f6f7; border-radius: 14px; margin-bottom: 12px;
 }
 .pm-icon {
   width: 32px; height: 32px; object-fit: contain; display: block;
