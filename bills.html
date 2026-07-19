@@ -185,13 +185,20 @@ body.m10-overlay-open { overflow: hidden; }
   background: #f2f2f2;
 }
 .bill-body {
-  flex: 1; padding: 30px 20px 12px; display: flex; flex-direction: column; align-items: center; gap: 18px;
+  flex: 1; padding: 0 20px 12px; display: flex; flex-direction: column; align-items: center;
+  position: relative;
+}
+.bill-center-cluster {
+  position: absolute; top: 50%; left: 0; right: 0; transform: translateY(-50%);
+  display: flex; flex-direction: column; align-items: center; gap: 18px;
+  padding: 0 20px;
 }
 .bill-amount-wrap {
   display: flex; align-items: baseline; gap: 8px; justify-content: center;
+  width: 100%;
 }
 .bill-amount-wrap input {
-  border: none; outline: none; text-align: right; width: 140px;
+  border: none; outline: none; text-align: right; width: 2ch; min-width: 1ch; max-width: 100%;
   font-size: 36px; font-weight: 700; color: #111; background: transparent;
   -webkit-tap-highlight-color: transparent;
 }
@@ -333,15 +340,17 @@ body.m10-overlay-open { overflow: hidden; }
     <img id="billLogo" class="bill-logo" src="images/azerisiq-logo.png" alt=""/>
   </div>
   <div class="bill-body">
-    <div class="bill-amount-wrap">
-      <input type="number" id="billAmountInput" oninput="updateBillPayBtn()" value="1"/>
-      <span class="currency">₼</span>
-    </div>
-    <div class="bill-keshbek"><img src="images/cashback-icon.png" alt="" style="width:20px;height:20px;"/> 1% keşbek</div>
-    <div class="bill-method-select" onclick="openPaymentSheet()">
-      <img src="images/card-icon.png" alt="" class="pm-icon"/>
-      <span id="billMethodLabel">Yeni kartdan</span>
-      <span>&#9662;</span>
+    <div class="bill-center-cluster">
+      <div class="bill-amount-wrap">
+        <input type="number" id="billAmountInput" oninput="updateBillPayBtn(); autoSizeAmount(this);" value="1"/>
+        <span class="currency">₼</span>
+      </div>
+      <div class="bill-keshbek"><img src="images/cashback-icon.png" alt="" style="width:20px;height:20px;"/> 1% keşbek</div>
+      <div class="bill-method-select" onclick="openPaymentSheet()">
+        <img src="images/card-icon.png" alt="" class="pm-icon"/>
+        <span id="billMethodLabel">Yeni kartdan</span>
+        <span>&#9662;</span>
+      </div>
     </div>
     <p class="bill-note">Qeyri-əhali ödənişlərində tutulmuş xidmət haqqı ödənişin ləğvi zamanı geri qaytarılmır.</p>
   </div>
@@ -501,7 +510,13 @@ function openBillScreen(){
   document.getElementById('billMethodLabel').textContent = 'Yeni kartdan';
 
   updateBillPayBtn();
+  autoSizeAmount(document.getElementById('billAmountInput'));
   document.getElementById('billScreen').classList.add('active');
+}
+
+function autoSizeAmount(el){
+  var len = String(el.value).length;
+  el.style.width = Math.max(len, 1) + 'ch';
 }
 
 function closeBillScreen(){
